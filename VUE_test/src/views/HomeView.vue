@@ -95,7 +95,7 @@
             <el-table-column prop="address" label="地址">
             </el-table-column>
             <el-table-column label="操作" width="200" align="center">
-              <template slot-scope="scop">
+              <template :slot-scope="'scope'">
                 <el-button type="success">编辑 <i class="el-icon-edit"></i></el-button>
                 <el-button type="danger">删除<i class="el-icon-remove-outline"></i></el-button>
               </template>
@@ -105,8 +105,11 @@
 
           <div style="padding: 10px 0">
             <el-pagination 
-            :page-sizes="[5,10,15,20]"
-            :page-size="10"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="pageNum"
+            :page-sizes="[2,5,10,20]"
+            :page-size="pageSize"
             layout="total,sizes,prev,pager,next,jumper"
             :total="total">
             </el-pagination>
@@ -134,6 +137,8 @@ export default {
     return{
       msg:"hello banana",
       tableData: [],
+      pageNum:1,
+      pageSize:2,
       total:0,
       collapseBtnClass:'el-icon-s-fold',
       isCollapse:false,
@@ -144,12 +149,7 @@ export default {
     },
 //请求分页查询数据
     created(){
-      fetch("http://localhost:9090/user/page?pageNum=1&pageSize=2").then(res => res.json()).then(res => {
-        console.log(res)
-        this.tableData=res.data
-        this.total = res.total
-      })
-
+      this.load()
     },
     methods:{
       collapse(){
@@ -157,13 +157,32 @@ export default {
         if(this.isCollapse){
           this.sideWidth =64
           this.collapseBtnClass = 'el-icon-s-unfold'
+          this.logoTextShow = false
         }else{
           this.sideWidth =200
           this.collapseBtnClass ='el-icon-s-fold'
+          this.logoTextShow = true
 
         }
+      },
+      load(){//加载数据
+        fetch("http://127.0.0.1:9090/user/page?pageNum=" + this.pageNum + "&pageSize=" + this.pageSize).then(res => res.json()).then(res => {
+        console.log(res)
+        this.tableData=res.data
+        this.total = res.total
+      })
+    },
+      handleSizeChange(pageSize){//加载页面数量
+        console.log(pageSize)
+        this.pageSize = pageSize
+        this.load()
+      },
+      handleCurrentChange(pageNum){//加载页面当期前页
+        console.log(pageNum)
+        this.pageNum = pageNum
+        this.load()
 
-        }
+      }
 
       }
     }

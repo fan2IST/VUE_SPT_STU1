@@ -40,10 +40,10 @@ public class UserController {
     //分页查询接口 ?pageNum=1&pageSize=10
     @GetMapping("/page")
     public Map<String, Object> findPage(@RequestParam Integer pageNum, @RequestParam Integer pageSize){
-        pageNum = (pageNum - 1) * pageSize;
-        List<User> data = userMapper.selectPage(pageNum,pageSize);
+        pageNum = (pageNum - 1) * pageSize;//真实页码从0开始
+        List<User> data = userMapper.selectPage(pageNum,pageSize);//压入列表
         Integer total = userMapper.selectTotal();
-        Map<String, Object> res = new HashMap<>();
+        Map<String, Object> res = new HashMap<>();//键值对存储
         res.put("data",data);
         res.put("total",total);
         return res;
