@@ -80,16 +80,22 @@
             <el-button type="primary"><i class="el-icon-bottom">导入</i></el-button>
             <el-button type="primary"><i class="el-icon-top">导出</i></el-button>
           </div>
-
+          <!-- 分页数据绑定 -->
           <el-table :data="tableData" border stripe header-row-class-name="headClass">
-            <el-table-column prop="date" label="日期" width="140">
+            <el-table-column prop="id" label="ID" width="80">
             </el-table-column>
-            <el-table-column prop="name" label="姓名" width="120">
+            <el-table-column prop="username" label="用户名" width="140">
+            </el-table-column>
+            <el-table-column prop="nikename" label="昵称" width="120">
+            </el-table-column>
+            <el-table-column prop="email" label="邮件">
+            </el-table-column>
+            <el-table-column prop="phone" label="电话">
             </el-table-column>
             <el-table-column prop="address" label="地址">
             </el-table-column>
-            <el-table-column>
-              <template slot-scope="{}">
+            <el-table-column label="操作" width="200" align="center">
+              <template slot-scope="scop">
                 <el-button type="success">编辑 <i class="el-icon-edit"></i></el-button>
                 <el-button type="danger">删除<i class="el-icon-remove-outline"></i></el-button>
               </template>
@@ -102,7 +108,7 @@
             :page-sizes="[5,10,15,20]"
             :page-size="10"
             layout="total,sizes,prev,pager,next,jumper"
-            :total="400">
+            :total="total">
             </el-pagination>
           </div>
 
@@ -124,19 +130,26 @@ export default {
     HelloWorld
   },
   data(){
-    const item = {
-      date: '2019-05-02',
-      name: 'banana',
-      address: '上海市普陀区金沙江路 1518 弄'
-    };
 
     return{
       msg:"hello banana",
-      tableData: Array(10).fill(item),
+      tableData: [],
+      total:0,
       collapseBtnClass:'el-icon-s-fold',
       isCollapse:false,
-      sideWidth:200
+      sideWidth:200,
+      logoTextShow: true,
+      headeBg:'headerBg'
     }
+    },
+//请求分页查询数据
+    created(){
+      fetch("http://localhost:9090/user/page?pageNum=1&pageSize=2").then(res => res.json()).then(res => {
+        console.log(res)
+        this.tableData=res.data
+        this.total = res.total
+      })
+
     },
     methods:{
       collapse(){
