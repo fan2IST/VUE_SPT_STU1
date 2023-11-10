@@ -68,10 +68,10 @@
 
           <!-- 上方搜索框 -->
           <div style="padding: 10px 0">
-            <el-input style="width:200px" placeholder="请输入名称" suffix-icon="el-icon-search"></el-input>
-            <el-input style="width:200px" placeholder="请输入邮箱" suffix-icon="el-icon-message" class="ml-5"></el-input>
-            <el-input style="width:200px" placeholder="请输入地址" suffix-icon="el-icon-position" class="ml-5"></el-input>
-            <el-button class="ml-5" type="primary">搜索</el-button>
+            <el-input style="width:200px" placeholder="请输入名称" suffix-icon="el-icon-search" v-model="username"></el-input>
+            <!-- <el-input style="width:200px" placeholder="请输入邮箱" suffix-icon="el-icon-message" class="ml-5"></el-input>
+            <el-input style="width:200px" placeholder="请输入地址" suffix-icon="el-icon-position" class="ml-5"></el-input> -->
+            <el-button class="ml-5" type="primary" @click="load">搜索</el-button>
           </div>
           <!-- 前三个按钮 -->
           <div style="margin:10px 0">
@@ -139,6 +139,7 @@ export default {
       tableData: [],
       pageNum:1,
       pageSize:2,
+      username:"",
       total:0,
       collapseBtnClass:'el-icon-s-fold',
       isCollapse:false,
@@ -166,7 +167,7 @@ export default {
         }
       },
       load(){//加载数据
-        fetch("http://127.0.0.1:9090/user/page?pageNum=" + this.pageNum + "&pageSize=" + this.pageSize).then(res => res.json()).then(res => {
+        fetch("http://127.0.0.1:9090/user/page?pageNum=" + this.pageNum + "&pageSize=" + this.pageSize + "&username=" + this.username).then(res => res.json()).then(res => {
         console.log(res)
         this.tableData=res.data
         this.total = res.total
