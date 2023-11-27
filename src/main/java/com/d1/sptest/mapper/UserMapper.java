@@ -1,11 +1,12 @@
 package com.d1.sptest.mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.d1.sptest.emity.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
-@Mapper
-public interface UserMapper {
+//@Mapper
+public interface UserMapper extends BaseMapper<User> {
 
     @Select("SELECT * FROM sys_user;")
     List<User> findAll();
