@@ -14,7 +14,7 @@ public class CorsConfig {
     public CorsFilter corsFilter(){
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("http://127.0.0.1:8080");//源地址(目标地址)
+        corsConfiguration.addAllowedOrigin("*");//源地址(目标地址)
         corsConfiguration.addAllowedHeader("*");//请求头
         corsConfiguration.addAllowedMethod("*");//请求方法
         corsConfiguration.setMaxAge(MAX_AGE);

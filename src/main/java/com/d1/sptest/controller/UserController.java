@@ -29,10 +29,10 @@ public class UserController {// 111111
 
     // 新增or修改
     @PostMapping
-    public Integer save(@RequestBody User user) {
+    public boolean save(@RequestBody User user) {
 
         // 新增或者更新
-        return userService.save(user);
+        return userService.saveUer(user);
     }
 
     // 查询所有数据
